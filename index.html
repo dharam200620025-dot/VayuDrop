@@ -72,5 +72,61 @@
     <!-- Scripts -->
     <script src="/socket.io/socket.io.js"></script>
     <script src="script.js"></script>
+    <script>// File select hote hi upload shuru karne ka function
+function startUpload() {
+    const fileInput = document.getElementById('fileInput');
+    const statusText = document.getElementById('uploadStatus');
+    const resultBox = document.getElementById('resultBox');
+    
+    // Agar user ne koi file select nahi ki
+    if (fileInput.files.length === 0) return;
+    
+    const file = fileInput.files[0];
+    
+    // UI Update: Uploading text dikhayein
+    statusText.innerHTML = `Uploading: <b>${file.name}</b> ⏳<br><span style="font-size: 12px;">Please wait...</span>`;
+    resultBox.style.display = "none";
+
+    uploadToFileIO(file);
+}
+
+// File.io API par file bhejne ka main function
+async function uploadToFileIO(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    try {
+        const response = await fetch('https://file.io', {
+            method: 'POST',
+            body: formData
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Upload successful hone par
+            document.getElementById('uploadStatus').innerHTML = "Upload Complete! 🎉";
+            document.getElementById('shareLink').value = data.link;
+            document.getElementById('resultBox').style.display = "block"; // Box dikhayein
+        } else {
+            // Kisi error ke aane par
+            document.getElementById('uploadStatus').innerHTML = "Upload Failed! ❌ Pata nahi kya hua.";
+        }
+    } catch (error) {
+        document.getElementById('uploadStatus').innerHTML = "Network Error! ❌ Internet check karein.";
+        console.error("API Error:", error);
+    }
+}
+
+// Link Copy karne ka function
+function copyLink() {
+    const linkInput = document.getElementById('shareLink');
+    linkInput.select();
+    document.execCommand("copy");
+    
+    const statusText = document.getElementById('uploadStatus');
+    statusText.innerHTML = "<span style='color: #00ff88;'>Link Copied! 🚀 Doston ke sath share karein!</span>";
+}
+    </script>
 </body>
 </html>
