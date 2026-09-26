@@ -24,13 +24,26 @@
         <main class="glass-card">
             
             <!-- File Select Area -->
-            <div class="drop-zone" id="dropZone">
-                <div class="drop-icon">☁️</div>
-                <h2>Drag & Drop files here</h2>
-                <p>or</p>
-                <button class="browse-btn" id="browseBtn">Browse Files</button>
-                <input type="file" id="fileInput" hidden>
+            <div class="upload-container" style="text-align: center;">
+    <!-- Hidden File Input -->
+    <input type="file" id="fileInput" style="display: none;" onchange="startUpload()">
+    
+    <!-- Stylish Upload Button -->
+    <button class="primary-btn" onclick="document.getElementById('fileInput').click()">
+        📁 Select File to Drop
+    </button>
+    
+    <!-- Status Text -->
+    <p id="uploadStatus" style="color: rgba(255,255,255,0.6); margin-top: 15px; font-size: 14px;"></p>
+    
+    <!-- Result Box (Hidden by default) -->
+    <div id="resultBox" style="display: none; margin-top: 20px; background: rgba(0,255,136,0.1); padding: 15px; border-radius: 15px; border: 1px solid #00ff88;">
+        <p style="color: #00ff88; margin-bottom: 10px; font-weight: bold;">Link Ready! 🔗</p>
+        <input type="text" id="shareLink" readonly style="width: 100%; background: rgba(0,0,0,0.5); border: none; color: white; padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
+        <button onclick="copyLink()" class="secondary-btn" style="padding: 10px; font-size: 14px;">Copy Link 📋</button>
+    </div>
             </div>
+            
 
             <!-- Link Sharing Area -->
             <div id="linkContainer" class="hidden" style="margin-top: 20px; text-align: center;">
